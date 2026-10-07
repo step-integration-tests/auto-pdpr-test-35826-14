@@ -3,12 +3,20 @@ name: Test Workflow
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   hello_world:
     runs-on: ubuntu-latest
     container: node:18
 
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed # v2.22.0
+        with:
+          egress-policy: audit
+
       - name: Hello
         shell: bash
         run: echo "HI"
